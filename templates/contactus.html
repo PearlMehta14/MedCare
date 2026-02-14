@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | MedCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+</head>
+
+<body>
+    <nav class="nav-bar">
+        <div class="logo">
+            <h2
+                style="margin:0; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                MedCare</h2>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('main') }}">Home</a>
+            <a href="{{ url_for('abt') }}">About</a>
+        </div>
+    </nav>
+
+    <main class="master-container" style="max-width: 900px;">
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 2.5rem; align-items: start;">
+            <section>
+                <h1>Get in Touch</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">We're here to help and answer any question you
+                    might have. We look forward to hearing from you.</p>
+
+                <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #3a7bd5;">Support Email</h4>
+                    <p style="font-size: 0.95rem;">support@medcare.com</p>
+                </div>
+
+                <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #3a7bd5;">Phone Support</h4>
+                    <p style="font-size: 0.95rem;">+1 (800) MED-CARE</p>
+                </div>
+
+                <div class="glass-card" style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #3a7bd5;">Official Address</h4>
+                    <p style="font-size: 0.95rem;">123 Medical Plaza, Wellness District, NY 10001</p>
+                </div>
+            </section>
+
+            <section class="glass-card">
+                <h3>Send us a Message</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Your feedback helps us
+                    improve our services.</p>
+
+                <form action="{{ url_for('submit_review') }}" method="post">
+                    <div class="form-group">
+                        <label for="email">Your Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message / Feedback</label>
+                        <textarea id="message" name="message" rows="5" placeholder="How can we help you?"
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-premium" style="width: 100%;">Send Message</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>

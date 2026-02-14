@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | MedCare</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+</head>
+
+<body>
+  <nav class="nav-bar">
+    <div class="logo">
+      <h2
+        style="margin:0; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        MedCare</h2>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('main') }}">Home</a>
+      <a href="{{ url_for('submit_review') }}">Contact</a>
+    </div>
+  </nav>
+
+  <main class="master-container" style="max-width: 800px;">
+    <div class="glass-card">
+      <h1>About MedCare</h1>
+      <p style="font-size: 1.1rem; margin-bottom: 2rem;">Welcome to our online appointment system! We are a team of
+        dedicated healthcare professionals committed to providing high-quality care to our patients. Our mission is to
+        make healthcare more accessible and convenient for everyone.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+        <div
+          style="padding: 1.5rem; border-radius: 15px; background: rgba(58, 123, 213, 0.05); border: 1px solid #edf2f7;">
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;">Our Vision</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">To lead the digital transformation of healthcare by
+            providing seamless, secure, and user-centric solutions for both providers and patients.</p>
+        </div>
+        <div
+          style="padding: 1.5rem; border-radius: 15px; background: rgba(118, 75, 162, 0.05); border: 1px solid #edf2f7;">
+          <h3
+            style="margin-bottom: 0.5rem; font-size: 1.2rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Our Values</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Integrity, Innovation, and Interconnectivity. We
+            prioritize patient privacy and medical excellence in everything we build.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #edf2f7;">
+        <h3>Why Choose Us?</h3>
+        <ul style="list-style: none; padding: 0; margin-top: 1.5rem;">
+          <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="color: #3a7bd5; font-weight: bold;">✓</span> 24/7 Online Booking System
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="color: #3a7bd5; font-weight: bold;">✓</span> Real-time Time Slot Availability
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="color: #3a7bd5; font-weight: bold;">✓</span> Secure Doctor-Patient Portal
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="color: #3a7bd5; font-weight: bold;">✓</span> Automated Email Confirmations
+          </li>
+        </ul>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="{{ url_for('login') }}" class="btn-premium">Get Started Today</a>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

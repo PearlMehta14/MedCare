@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Login | MedCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+</head>
+
+<body style="display: flex; align-items: center; justify-content: center;">
+    <div class="glass-card" style="width: 100%; max-width: 450px; margin: 2rem;">
+        <div class="text-center mb-8">
+            <h2 style="margin-bottom: 0.5rem;">Patient Login</h2>
+            <p style="color: var(--text-muted);">Access your medical dashboard</p>
+        </div>
+
+        {% if msg %}
+        <div
+            style="background: rgba(255, 107, 107, 0.1); color: #ff6b6b; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: center; border: 1px solid rgba(255,107,107,0.2);">
+            {{ msg }}
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="name@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-premium" style="width: 100%; margin-top: 1rem;">Sign In</button>
+        </form>
+
+        <div class="text-center mt-8">
+            <p style="color: var(--text-muted);">
+                New patient? <a href="{{ url_for('signup') }}"
+                    style="color: #3a7bd5; font-weight: 600; text-decoration: none;">Create an Account</a>
+            </p>
+            <a href="{{ url_for('main') }}"
+                style="display: block; margin-top: 1.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr;
+                Back to Home</a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Consultation | MedCare</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+  <style>
+    .booking-step {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .booking-step:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-bar">
+    <div class="logo">
+      <h2
+        style="margin:0; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        MedCare</h2>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('m') }}">Dashboard</a>
+      <a href="{{ url_for('ts') }}">Schedule</a>
+      <a href="{{ url_for('logout') }}" style="color: #ff6b6b;">Logout</a>
+    </div>
+  </nav>
+
+  <main class="master-container" style="max-width: 800px;">
+    <div class="glass-card">
+      <header class="text-center mb-8">
+        <h1>Book Your Consultation</h1>
+        <p style="color: var(--text-muted);">Fill in the details below to schedule your appointment.</p>
+      </header>
+
+      <form action="{{ url_for('consultation') }}" method="post" id="bookingForm">
+        <div class="booking-step">
+          <h3>1. Personal Information</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="Name">Full Name</label>
+              <input type="text" id="Name" name="Name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="Age">Age</label>
+              <input type="number" id="Age" name="Age" placeholder="25" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Phone">Phone Number</label>
+            <input type="tel" id="Phone" name="Phone" placeholder="+1 (555) 000-0000" required>
+          </div>
+          <div class="form-group">
+            <label for="Address">Address</label>
+            <textarea id="Address" name="Address" rows="2" placeholder="Your residential address" required></textarea>
+          </div>
+        </div>
+
+        <div class="booking-step">
+          <h3>2. Select Date & Time</h3>
+          <div class="form-group">
+            <label for="date">Appointment Date</label>
+            <input type="date" id="date" name="date" required min="{{ today }}" onchange="validateDate(this)">
+            <p id="dateWarning" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 0.5rem; display: none;">Sundays
+              are holidays. Please select another date.</p>
+          </div>
+          <div class="form-group">
+            <label for="time">Preferred Time</label>
+            <input type="time" id="time" name="time" required step="900" onchange="validateTime()">
+            <p id="timeWarning" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 0.5rem; display: none;">Please
+              select a future time slot for today.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Hours: 9:00-14:00 (Morning) &
+              19:00-22:30 (Evening)</p>
+          </div>
+        </div>
+
+        <div class="booking-step">
+          <h3>3. Confirmation Email</h3>
+          <div class="form-group">
+            <label for="msg">Email for Confirmation</label>
+            <input type="email" id="msg" name="msg" value="{{ session['email'] }}" placeholder="patient@example.com"
+              required>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn-premium" style="width: 100%; padding: 1.2rem;">Confirm Appointment</button>
+          <a href="{{ url_for('m') }}"
+            style="display: block; margin-top: 1rem; color: var(--text-muted); text-decoration: none;">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function validateDate(input) {
+      const date = new Date(input.value);
+      const warning = document.getElementById('dateWarning');
+      if (date.getDay() === 0) {
+        input.value = '';
+        warning.style.display = 'block';
+      } else {
+        warning.style.display = 'none';
+      }
+      validateTime();
+    }
+
+    function validateTime() {
+      const dateInput = document.getElementById('date');
+      const timeInput = document.getElementById('time');
+      const warning = document.getElementById('timeWarning');
+
+      if (!dateInput.value || !timeInput.value) return;
+
+      const now = new Date();
+      const selectedDate = new Date(dateInput.value);
+      const [hours, minutes] = timeInput.value.split(':');
+      selectedDate.setHours(hours, minutes, 0, 0);
+
+      if (selectedDate < now) {
+        warning.style.display = 'block';
+        timeInput.setCustomValidity('Please select a future time');
+      } else {
+        warning.style.display = 'none';
+        timeInput.setCustomValidity('');
+      }
+    }
+
+    document.getElementById('bookingForm').onsubmit = function () {
+      return confirm('Do you want to confirm this appointment?');
+    };
+  </script>
+</body>
+
+</html>

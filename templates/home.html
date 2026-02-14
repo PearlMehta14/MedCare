@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard | MedCare</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+</head>
+
+<body>
+  <nav class="nav-bar">
+    <div class="logo">
+      <h2
+        style="margin:0; background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        MedCare</h2>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('m') }}">Dashboard</a>
+      <a href="{{ url_for('consultation') }}">Book Appointment</a>
+      <a href="{{ url_for('ts') }}">Schedule</a>
+      <a href="{{ url_for('logout') }}" style="color: #ff6b6b;">Logout</a>
+    </div>
+  </nav>
+
+  <div id="notification-toast">
+    <div class="notification-icon">🔔</div>
+    <div class="notification-content">
+      <h4>Upcoming Appointment</h4>
+      <p id="notification-text">You have an appointment in 15 minutes.</p>
+    </div>
+  </div>
+
+  <main class="master-container">
+    <header class="mb-8">
+      <h1>Welcome Back, Patient</h1>
+      <p style="color: var(--text-muted);">Manage your health journey with MedCare's premium portal.</p>
+    </header>
+
+    <div class="stat-grid">
+      <div class="stat-card glass-card">
+        <div class="stat-value">Book</div>
+        <p style="margin-top: 0.5rem; color: var(--text-muted);">New Consultation</p>
+        <a href="{{ url_for('consultation') }}" class="btn-premium mt-4" style="width: 100%;">Get Started</a>
+      </div>
+
+      <div class="stat-card glass-card">
+        <div class="stat-value">View</div>
+        <p style="margin-top: 0.5rem; color: var(--text-muted);">Available Slots</p>
+        <a href="{{ url_for('ts') }}" class="btn-premium mt-4" style="width: 100%;">Check Availability</a>
+      </div>
+
+      <div class="stat-card glass-card">
+        <div class="stat-value">Track</div>
+        <p style="margin-top: 0.5rem; color: var(--text-muted);">My History</p>
+        <a href="{{ url_for('confirmation') }}" class="btn-premium mt-4" style="width: 100%;">View Recent</a>
+      </div>
+    </div>
+
+    <section class="glass-card mt-8">
+      <h3>Health & Wellness Tips</h3>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+        <div
+          style="padding: 1.5rem; border-radius: 15px; border: 1px solid #edf2f7; background: rgba(58, 123, 213, 0.02);">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💧</div>
+          <h4 style="margin-bottom: 0.5rem;">Stay Hydrated</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Drinking enough water is essential for your body to
+            function properly. Aim for 8 glasses a day.</p>
+        </div>
+        <div
+          style="padding: 1.5rem; border-radius: 15px; border: 1px solid #edf2f7; background: rgba(118, 75, 162, 0.02);">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🥦</div>
+          <h4 style="margin-bottom: 0.5rem;">Eat Balanced</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Include a variety of fruits, vegetables, and lean
+            proteins in your daily diet for optimal energy.</p>
+        </div>
+        <div
+          style="padding: 1.5rem; border-radius: 15px; border: 1px solid #edf2f7; background: rgba(58, 123, 213, 0.02);">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🚶‍♂️</div>
+          <h4 style="margin-bottom: 0.5rem;">Daily Activity</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Even a 30-minute walk can significantly improve your
+            cardiovascular health and mood.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center mt-8" style="padding: 2rem; color: var(--text-muted);">
+      <p>&copy; 2026 MedCare Portal. Your health is our priority.</p>
+    </footer>
+  </main>
+
+  <script>
+    function checkNotifications() {
+      fetch('/api/upcoming_appointments')
+        .then(response => response.json())
+        .then(data => {
+          if (data.appointments && data.appointments.length > 0) {
+            const appt = data.appointments[0];
+            const toast = document.getElementById('notification-toast');
+            const text = document.getElementById('notification-text');
+            text.innerText = `You have an appointment at ${appt.time} today!`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+              toast.classList.remove('show');
+            }, 8000);
+          }
+        });
+    }
+
+    // Check every 30 seconds
+    setInterval(checkNotifications, 30000);
+    // Also check on load
+    window.addEventListener('load', checkNotifications);
+  </script>
+</body>
+
+</html>

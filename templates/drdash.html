@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard | MedCare Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+  <style>
+    .status-badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-bar">
+    <div class="logo">
+      <h2
+        style="margin:0; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        MedCare Doctor</h2>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('doctor_dashboard') }}">Home</a>
+      <a href="{{ url_for('patients') }}">Patients</a>
+      <a href="{{ url_for('main') }}" style="color: #ff6b6b;">Logout</a>
+    </div>
+  </nav>
+
+  <main class="master-container">
+    <header style="display: flex; justify-content: space-between; align-items: flex-end;" class="mb-8">
+      <div>
+        <h1>Appointments Overview</h1>
+        <p style="color: var(--text-muted);">View and manage your upcoming consultations.</p>
+      </div>
+      <div style="text-align: right;">
+        <p style="font-weight: 600;">Dr. Portal</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Authenticated Session</p>
+      </div>
+    </header>
+
+    {% if msg %}
+    <div class="glass-card mb-8"
+      style="background: rgba(46, 204, 113, 0.1); border: 1px solid #2ecc71; color: #2ecc71;">
+      {{ msg }}
+    </div>
+    {% endif %}
+
+    <div class="glass-card" style="padding: 0;">
+      <div
+        style="padding: 1.5rem 2rem; border-bottom: 1px solid #edf2f7; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="margin: 0;">Today's Schedule</h3>
+        <button class="btn-premium secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Print List</button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Date</th>
+              <th>Patient Name</th>
+              <th>Age</th>
+              <th>Contact</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if appointments %}
+            {% for app in appointments %}
+            <tr>
+              <td style="font-weight: 600; color: #764ba2;">{{ app['time'] }}</td>
+              <td>{{ app['date'] }}</td>
+              <td>{{ app['name'] }}</td>
+              <td>{{ app['age'] }}</td>
+              <td>{{ app['phone'] }}</td>
+              <td><span class="status-badge">Confirmed</span></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="6" class="text-center" style="padding: 3rem; color: var(--text-muted);">No appointments found
+                in the system.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="stat-grid mt-8">
+      <div class="stat-card glass-card">
+        <p style="color: var(--text-muted);">Total Patients Today</p>
+        <div class="stat-value" style="color: #764ba2;">{{ appointments|length if appointments else 0 }}</div>
+      </div>
+      <div class="stat-card glass-card">
+        <p style="color: var(--text-muted);">Available Capacity</p>
+        <div class="stat-value" style="color: #764ba2;">High</div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

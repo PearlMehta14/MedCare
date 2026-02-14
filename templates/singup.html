@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Registration | MedCare</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+</head>
+
+<body style="display: flex; align-items: center; justify-content: center;">
+  <div class="glass-card" style="width: 100%; max-width: 450px; margin: 2rem; border-top: 5px solid #764ba2;">
+    <div class="text-center mb-8">
+      <h2
+        style="margin-bottom: 0.5rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Doctor Registration</h2>
+      <p style="color: var(--text-muted);">Partner with MedCare</p>
+    </div>
+
+    {% if msg %}
+    <div
+      style="background: rgba(46, 204, 113, 0.1); color: #2ecc71; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: center;">
+      {{ msg }}
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('signupdr') }}" method="post">
+      <div class="form-group">
+        <label for="Email">Professional Email</label>
+        <input type="email" id="Email" name="Email" placeholder="doctor@hospital.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" id="Password" name="Password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn-premium secondary" style="width: 100%; margin-top: 1rem;">Register as
+        Doctor</button>
+    </form>
+
+    <div class="text-center mt-8">
+      <p style="color: var(--text-muted);">
+        Already registered? <a href="{{ url_for('logindr') }}"
+          style="color: #764ba2; font-weight: 600; text-decoration: none;">Sign In</a>
+      </p>
+      <a href="{{ url_for('main') }}"
+        style="display: block; margin-top: 1.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr;
+        Back to Home</a>
+    </div>
+  </div>
+</body>
+
+</html>

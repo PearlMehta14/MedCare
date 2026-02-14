@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#appointments-list {
+  margin-top: 20px;
+}
+
+#appointments-list h2 {
+  margin-bottom: 10px;
+}
+
+#appointments {
+  list-style-type: none;
+  padding: 0;
+}
+
+#appointments li {
+  margin-bottom: 5px;
+}
+

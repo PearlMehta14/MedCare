@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Directory | MedCare Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+</head>
+
+<body>
+  <nav class="nav-bar">
+    <div class="logo">
+      <h2
+        style="margin:0; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        MedCare Doctor</h2>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('doctor_dashboard') }}">Home</a>
+      <a href="{{ url_for('patients') }}">Patients</a>
+      <a href="{{ url_for('logout') }}" style="color: #ff6b6b;">Logout</a>
+    </div>
+  </nav>
+
+  <main class="master-container">
+    <header class="mb-8"
+      style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1>Patient Directory</h1>
+        <p style="color: var(--text-muted);">Cumulative list of all patients registered for consultation.</p>
+      </div>
+      <form action="{{ url_for('patients') }}" method="get"
+        style="display: flex; gap: 0.5rem; flex-grow: 1; max-width: 500px;">
+        <div class="form-group" style="margin-bottom: 0; flex-grow: 1; position: relative;">
+          <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name or phone..."
+            style="background: white url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2020%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><circle cx=%2211%22 cy=%2211%22 r=%228%22></circle><line x1=%2221%22 y1=%2221%22 x2=%2216.65%22 y2=%2216.65%22></line></svg>') no-repeat 15px center; padding-left: 45px;">
+        </div>
+        <button type="submit" class="btn-premium secondary" style="padding: 0 1.5rem;">Search</button>
+        {% if search_query %}
+        <a href="{{ url_for('patients') }}" class="btn-premium"
+          style="padding: 0 1.5rem; background: #dfe6e9; color: var(--text-main) !important; border: 1px solid #dfe6e9;">Clear</a>
+        {% endif %}
+      </form>
+    </header>
+
+    {% if error %}
+    <div class="glass-card mb-8"
+      style="border: 1px solid #ff6b6b; color: #ff6b6b; background: rgba(255, 107, 107, 0.1);">
+      {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="glass-card" style="padding: 0;">
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Patient Name</th>
+              <th>Phone Number</th>
+              <th>Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if appointments %}
+            {% for app in appointments %}
+            <tr>
+              <td style="font-weight: 500; color: var(--text-muted);">#PAT-{{ app['Sno'] }}</td>
+              <td style="font-weight: 600;">{{ app['name'] }}</td>
+              <td>{{ app['phone'] }}</td>
+              <td><span
+                  style="padding: 0.3rem 0.6rem; border-radius: 12px; background: #e2e8f0; font-size: 0.75rem;">Registered</span>
+              </td>
+              <td style="text-align: right;">
+                <span style="color: var(--text-muted); font-size: 0.85rem;">No actions required</span>
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="text-center" style="padding: 3rem; color: var(--text-muted);">
+                {% if search_query %}
+                No patients matching "{{ search_query }}"
+                {% else %}
+                No patients found in the record.
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

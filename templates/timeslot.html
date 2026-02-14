@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Time Slots | MedCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+    <style>
+        .slot-section {
+            margin-bottom: 3rem;
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .slot-item {
+            padding: 1rem;
+            background: white;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            text-align: center;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .slot-item:not(.booked):hover {
+            border-color: #00d2ff;
+            background: rgba(0, 210, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .token {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 0.2rem;
+        }
+
+        .date-picker-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .holiday-card {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(255, 107, 107, 0.05);
+            border: 2px dashed #ff6b6b;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav-bar">
+        <div class="logo">
+            <h2
+                style="margin:0; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                MedCare</h2>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('main') }}">Home</a>
+            {% if session.get('loggedin') %}
+            <a href="{{ url_for('m') }}">Dashboard</a>
+            {% endif %}
+            <a href="{{ url_for('consultation') }}" class="btn-premium" style="padding: 0.5rem 1rem;">Book Now</a>
+        </div>
+    </nav>
+
+    <main class="master-container">
+        <header class="text-center mb-8">
+            <h1>Consultation Hours</h1>
+            <p style="color: var(--text-muted);">Check availability for your preferred date.</p>
+        </header>
+
+        <div class="date-picker-container">
+            <label style="font-weight: 600;">Check Schedule For:</label>
+            <form action="{{ url_for('ts') }}" method="get" id="dateForm" style="display: flex; gap: 0.5rem;">
+                <input type="date" name="date" value="{{ selected_date }}"
+                    onchange="document.getElementById('dateForm').submit();" style="width: auto;">
+            </form>
+        </div>
+
+        {% if is_sunday %}
+        <div class="holiday-card">
+            <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">🏥</span>
+            <h2 style="color: #ff6b6b; -webkit-text-fill-color: #ff6b6b; background: none;">Sunday is a Holiday</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Our clinic is closed on Sundays. Please select a
+                different date to see available slots.</p>
+            <a href="{{ url_for('ts') }}" class="btn-premium mt-4">Check Tomorrow</a>
+        </div>
+        {% else %}
+        <section class="slot-section glass-card">
+            <h3>☀️ Morning Session</h3>
+            <div class="slot-grid">
+                {% set morning_slots = ['09:00', '09:15', '09:30', '09:45', '10:00', '10:15', '10:30', '10:45', '11:00',
+                '11:15', '11:30', '12:00', '12:15', '12:30', '12:45', '13:00', '13:15', '13:30', '13:45', '14:00'] %}
+                {% for stime in morning_slots %}
+                <div class="slot-item {{ 'booked' if stime in booked_slots else '' }}">
+                    {{ stime }}
+                    <span class="token">Token #{{ loop.index }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="slot-section glass-card">
+            <h3>🌙 Evening Session</h3>
+            <div class="slot-grid">
+                {% set evening_slots = ['19:00', '19:15', '19:30', '19:45', '20:00', '20:15', '20:30', '20:45', '21:00',
+                '21:15', '21:30', '21:45', '22:00', '22:15', '22:30'] %}
+                {% for stime in evening_slots %}
+                <div class="slot-item {{ 'booked' if stime in booked_slots else '' }}">
+                    {{ stime }}
+                    <span class="token">Token #{{ loop.index }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </main>
+</body>
+
+</html>
