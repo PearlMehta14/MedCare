@@ -1,12 +1,6 @@
-__pycache__/
-*.py[cod]
-*$py.class
-.env
-.venv
-env/
-venv/
-ENV/
 instance/
+__pycache__/
+*.pyc
+.env
 .vscode/
 .idea/
-.DS_Store
